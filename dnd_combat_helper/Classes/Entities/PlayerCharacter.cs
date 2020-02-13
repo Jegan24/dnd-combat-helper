@@ -23,20 +23,20 @@ namespace dnd_combat_helper.Classes.Entities
         public int Dexterity { get; private set; }
         public int ArmorClass { get; private set; }
         public bool IsAlive { get; private set; }
-        public bool IsInDeathSavingThrows
+        public bool IsUnconscious
         {
             get
             {
-                return _isInDeathSavingThrows;
+                return _IsUnconscious;
             }
             private set
             {
                 _failedDeathSaves = 0;
                 _successfulDeathSaves = 0;
-                _isInDeathSavingThrows = value;
+                _IsUnconscious = value;
             }
         }
-        private bool _isInDeathSavingThrows = false;
+        private bool _IsUnconscious = false;
         public int SuccessfulDeathSaves
         {
             get
@@ -48,7 +48,7 @@ namespace dnd_combat_helper.Classes.Entities
                 _successfulDeathSaves = value;
                 if (_successfulDeathSaves >= 3)
                 {
-                    IsInDeathSavingThrows = false;
+                    IsUnconscious = false;
                 }
             }
         }
@@ -77,7 +77,7 @@ namespace dnd_combat_helper.Classes.Entities
 
         public void DeathSave(int roll)
         {
-            if (IsInDeathSavingThrows)
+            if (IsUnconscious)
             {
                 if (roll >= 10)
                 {
@@ -102,7 +102,7 @@ namespace dnd_combat_helper.Classes.Entities
             Dexterity = dexterity;
             ArmorClass = armorClass;
             IsAlive = true;
-            IsInDeathSavingThrows = false;
+            IsUnconscious = false;
             CurrentHitPoints = MaxHitPoints;            
         }
 
@@ -144,7 +144,7 @@ namespace dnd_combat_helper.Classes.Entities
             }
             else if (CurrentHitPoints <= 0)
             {
-                if (IsInDeathSavingThrows)
+                if (IsUnconscious)
                 {
                     if (isCrit)
                     {
@@ -157,26 +157,38 @@ namespace dnd_combat_helper.Classes.Entities
                 }
                 else
                 {
-                    IsInDeathSavingThrows = true;
+                    IsUnconscious = true;
                 }
             }
 
 
         }
 
-        public void ReceiveDamage(int incomingDamage, DamageType damageType)
+        public void ReceiveDamage(int incomingDamage, DamageType damageType, bool isCrit)
         {
-            throw new NotImplementedException();
+            if (Resistances.Contains(damageType))
+            {
+                incomingDamage /= 2;
+            }
+            else if (Immunities.Contains(damageType))
+            {
+                incomingDamage = 0;
+            }
+
+            ReceiveDamage(incomingDamage, isCrit);
         }
 
         public void ReceiveDamage(Damage incomingDamage)
         {
-            throw new NotImplementedException();
+            ReceiveDamage(incomingDamage.AmountOfDamage, incomingDamage.DamageType, incomingDamage.IsCrit);
         }
 
         public void ReceiveDamage(List<Damage> incomingDamages)
         {
-            throw new NotImplementedException();
+            foreach(Damage damage in incomingDamages)
+            {
+                ReceiveDamage(damage);
+            }
         }
 
         public void RollForInitiative()

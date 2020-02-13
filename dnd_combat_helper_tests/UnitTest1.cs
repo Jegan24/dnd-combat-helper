@@ -26,13 +26,13 @@ namespace dnd_combat_helper_tests
             ResetPC();            
             pc.ReceiveDamage(19, false);
             Assert.AreEqual(1, pc.CurrentHitPoints);
-            Assert.AreEqual(false, pc.IsInDeathSavingThrows);
+            Assert.AreEqual(false, pc.IsUnconscious);
             Assert.AreEqual(true, pc.IsAlive);
 
             ResetPC();
             pc.ReceiveDamage(20, false);
             Assert.AreEqual(0, pc.CurrentHitPoints);
-            Assert.AreEqual(true, pc.IsInDeathSavingThrows);
+            Assert.AreEqual(true, pc.IsUnconscious);
             Assert.AreEqual(true, pc.IsAlive);
 
             pc.ReceiveDamage(10, true);
@@ -46,7 +46,7 @@ namespace dnd_combat_helper_tests
             pc.DeathSave(10);
             pc.DeathSave(10);
             pc.DeathSave(10);
-            Assert.AreEqual(false, pc.IsInDeathSavingThrows);
+            Assert.AreEqual(false, pc.IsUnconscious);
 
 
             ResetPC();

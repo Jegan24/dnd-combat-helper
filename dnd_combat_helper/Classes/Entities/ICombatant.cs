@@ -10,6 +10,7 @@ namespace dnd_combat_helper.Classes.Entities
         int CurrentHitPoints { get; }
         int MaxHitPoints { get; }
         int Initiative { get; }
+        public int InitiativeModifier { get; }
         int Dexterity { get; }
         int ArmorClass { get; }
         bool IsAlive { get; }
@@ -17,12 +18,10 @@ namespace dnd_combat_helper.Classes.Entities
         List<DamageType> Resistances { get; }
         List<DamageType> Immunities { get; }
         void ReceiveDamage(int incomingDamage, bool isCrit);
-        void ReceiveDamage(int incomingDamage, DamageType damageType);
+        void ReceiveDamage(int incomingDamage, DamageType damageType, bool isCrit);
         void ReceiveDamage(Damage incomingDamage);
         void ReceiveDamage(List<Damage> incomingDamages);
         void RollForInitiative(int roll);
-
-        //public void ReceiveDamage(Dictionary<DamageTypes, int> typeDamagePairs);
-        
+        void RollForInitiative();
     }
 }

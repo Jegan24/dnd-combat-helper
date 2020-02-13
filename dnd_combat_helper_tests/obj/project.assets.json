@@ -4605,11 +4605,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Student\\source\\repos\\dnd_combat_helper\\dnd_combat_helper_tests\\dnd_combat_helper_tests.csproj",
+      "projectUniqueName": "C:\\Users\\Student\\workspace\\dnd-combat-helper\\dnd_combat_helper_tests\\dnd_combat_helper_tests.csproj",
       "projectName": "dnd_combat_helper_tests",
-      "projectPath": "C:\\Users\\Student\\source\\repos\\dnd_combat_helper\\dnd_combat_helper_tests\\dnd_combat_helper_tests.csproj",
+      "projectPath": "C:\\Users\\Student\\workspace\\dnd-combat-helper\\dnd_combat_helper_tests\\dnd_combat_helper_tests.csproj",
       "packagesPath": "C:\\Users\\Student\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Student\\source\\repos\\dnd_combat_helper\\dnd_combat_helper_tests\\obj\\",
+      "outputPath": "C:\\Users\\Student\\workspace\\dnd-combat-helper\\dnd_combat_helper_tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -4628,8 +4628,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Student\\source\\repos\\dnd_combat_helper\\dnd_combat_helper\\dnd_combat_helper.csproj": {
-              "projectPath": "C:\\Users\\Student\\source\\repos\\dnd_combat_helper\\dnd_combat_helper\\dnd_combat_helper.csproj"
+            "C:\\Users\\Student\\workspace\\dnd-combat-helper\\dnd_combat_helper\\dnd_combat_helper.csproj": {
+              "projectPath": "C:\\Users\\Student\\workspace\\dnd-combat-helper\\dnd_combat_helper\\dnd_combat_helper.csproj"
             }
           }
         }

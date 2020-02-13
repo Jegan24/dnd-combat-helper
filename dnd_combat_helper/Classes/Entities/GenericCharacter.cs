@@ -6,13 +6,23 @@ using System.Text;
 
 namespace dnd_combat_helper.Classes.Entities
 {
-    public class Monster : ICombatant
+    public abstract class GenericCharacter : ICombatant
     {
         public int CurrentHitPoints { get; private set; }
 
         public int MaxHitPoints { get; private set; }
 
         public int Initiative { get; private set; }
+
+        public int InitiativeModifier
+        {
+            get
+            {
+                int modifier = Dexterity - 10;
+                bool addRemainder = modifier < 0 && modifier % 2 != 0;
+                return (Dexterity - 10) / 2 - (addRemainder ? 1 : 0);
+            }
+        }
 
         public int Dexterity { get; private set; }
 
@@ -54,33 +64,43 @@ namespace dnd_combat_helper.Classes.Entities
             return result;
         }
 
-        public void ReceiveDamage(int incomingDamage, bool isCrit)
-        {
-            CurrentHitPoints -= incomingDamage;
-            if(CurrentHitPoints <= 0)
-            {
-                IsAlive = false;
-            }
-        }
+        public abstract void ReceiveDamage(int incomingDamage, bool isCrit);
 
-        public void ReceiveDamage(int incomingDamage, DamageType damageType)
+        public void ReceiveDamage(int incomingDamage, DamageType damageType, bool isCrit)
         {
-            throw new NotImplementedException();
+            if (Resistances.Contains(damageType))
+            {
+                incomingDamage /= 2;
+            }
+            else if (Immunities.Contains(damageType))
+            {
+                incomingDamage = 0;
+            }
+
+            ReceiveDamage(incomingDamage, isCrit);
         }
 
         public void ReceiveDamage(Damage incomingDamage)
         {
-            throw new NotImplementedException();
+            ReceiveDamage(incomingDamage.AmountOfDamage, incomingDamage.DamageType, incomingDamage.IsCrit);
         }
 
         public void ReceiveDamage(List<Damage> incomingDamages)
         {
-            throw new NotImplementedException();
+            foreach (Damage damage in incomingDamages)
+            {
+                ReceiveDamage(damage);
+            }
+        }
+
+        public void RollForInitiative()
+        {
+            Initiative = Functions.RollD20(InitiativeModifier);
         }
 
         public void RollForInitiative(int roll)
         {
-            throw new NotImplementedException();
+            Initiative = roll + InitiativeModifier;
         }
     }
 }
