@@ -19,6 +19,7 @@ namespace dnd_combat_helper_tests
         public void ResetPC()
         {
             pc = new PlayerCharacter("test", 20, 13, 11);
+            pc.RollForInitiative(10);
         }
         [Test]
         public void PlayerCharacterDamageAndDeath()
@@ -57,16 +58,20 @@ namespace dnd_combat_helper_tests
         public void PlayerCharacterInitiative()
         {
             ResetPC();
-            PlayerCharacter slowPC = new PlayerCharacter("slow", 20, 8, 10);
-            PlayerCharacter fastPC = new PlayerCharacter("fast", 20, 18, 10);
+            PlayerCharacter slowPC = new PlayerCharacter("slow", 15, 8, 10);
+            PlayerCharacter fastPC = new PlayerCharacter("fast", 10, 18, 10);
             List<ICombatant> combatants = new List<ICombatant>();
+
+            slowPC.RollForInitiative(10);
+            fastPC.RollForInitiative(10);
+
             combatants.Add(slowPC);
             combatants.Add(fastPC);
             combatants.Add(pc);
 
-            combatants.OrderByDescending(c => c);
-            Assert.AreEqual(fastPC, combatants.Max());
-            Assert.AreEqual(slowPC, combatants.Min());  
+            combatants.Sort();
+            Assert.AreEqual(fastPC, combatants.Min());
+            Assert.AreEqual(slowPC, combatants.Max());  
             Assert.AreEqual(1, pc.InitiativeModifier);
             Assert.AreEqual(-1, slowPC.InitiativeModifier);
             Assert.AreEqual(4, fastPC.InitiativeModifier);

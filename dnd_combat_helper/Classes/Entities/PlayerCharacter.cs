@@ -120,6 +120,18 @@ namespace dnd_combat_helper.Classes.Entities
             IsUnconscious = false;
         }
 
+        public PlayerCharacter(string name, int maxHp, int dexterity, int armorClass)
+        {
+            localId = ICombatant.GetNextId();
+            Name = name;
+            MaxHitPoints = maxHp;
+            CurrentHitPoints = MaxHitPoints;
+            Dexterity = dexterity;
+            ArmorClass = armorClass;
+            IsAlive = true;
+            IsUnconscious = false;
+        }
+
         public int CompareTo(ICombatant other)
         {
             int result = 0;

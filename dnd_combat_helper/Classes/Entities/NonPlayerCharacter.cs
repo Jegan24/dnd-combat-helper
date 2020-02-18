@@ -57,6 +57,17 @@ namespace dnd_combat_helper.Classes.Entities
             IsAlive = true;
         }
 
+        public NonPlayerCharacter(string name, int maxHp, int dexterity, int armorClass)
+        {
+            localId = ICombatant.GetNextId();
+            Name = name;
+            MaxHitPoints = maxHp;
+            CurrentHitPoints = MaxHitPoints;
+            Dexterity = dexterity;
+            ArmorClass = armorClass;
+            IsAlive = true;
+        }
+
         public int CompareTo(ICombatant other)
         {
             int result = 0;
