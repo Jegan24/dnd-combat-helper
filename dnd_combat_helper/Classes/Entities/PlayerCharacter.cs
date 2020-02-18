@@ -8,6 +8,8 @@ namespace dnd_combat_helper.Classes.Entities
 {
     public class PlayerCharacter : ICombatant
     {
+        #region properties
+        public int localId { get; }
         public int CurrentHitPoints { get; private set; }
         public int MaxHitPoints { get; private set; }
         public int Initiative { get; private set; }
@@ -36,7 +38,6 @@ namespace dnd_combat_helper.Classes.Entities
                 _IsUnconscious = value;
             }
         }
-        private bool _IsUnconscious = false;
         public int SuccessfulDeathSaves
         {
             get
@@ -68,6 +69,14 @@ namespace dnd_combat_helper.Classes.Entities
                 }
             }
         }
+        public string Name { get; private set; }
+
+        public List<DamageType> Resistances { get; private set; }
+
+        public List<DamageType> Immunities { get; private set; }
+
+        #endregion
+        private bool _IsUnconscious = false;
         private int _failedDeathSaves = 0;
         private int _successfulDeathSaves = 0;
         public void DeathSave()
@@ -89,21 +98,26 @@ namespace dnd_combat_helper.Classes.Entities
                 }
             }
         }
-        public string Name { get; private set; }
 
-        public List<DamageType> Resistances { get; private set; }
-
-        public List<DamageType> Immunities { get; private set; }
-
-        public PlayerCharacter(string name, int maxHP, int dexterity, int armorClass)
+        public PlayerCharacter(string name, int maxHp, int dexterity, int armorClass, List<DamageType> resistances, List<DamageType> immunites)
         {
+            localId = ICombatant.GetNextId();
             Name = name;
-            MaxHitPoints = maxHP;
+            MaxHitPoints = maxHp;
+            CurrentHitPoints = MaxHitPoints;
             Dexterity = dexterity;
             ArmorClass = armorClass;
+            if(resistances != null)
+            {
+                Resistances = new List<DamageType>(resistances);
+            }
+            if(immunites != null)
+            {
+                Immunities = new List<DamageType>(immunites);
+            }
+            
             IsAlive = true;
             IsUnconscious = false;
-            CurrentHitPoints = MaxHitPoints;            
         }
 
         public int CompareTo(ICombatant other)
@@ -131,7 +145,7 @@ namespace dnd_combat_helper.Classes.Entities
             {
                 result = this.Initiative.CompareTo(other.Initiative);
             }
-            return result;
+            return result * -1;
         }
 
         public void ReceiveDamage(int incomingDamage, bool isCrit)
@@ -199,6 +213,11 @@ namespace dnd_combat_helper.Classes.Entities
         public void RollForInitiative(int roll)
         {
             Initiative = roll + InitiativeModifier;
+        }
+
+        public string GetMenuOptionString()
+        {
+            return $"{localId}: {Name}";
         }
     }
 }

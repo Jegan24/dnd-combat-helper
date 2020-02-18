@@ -9,6 +9,8 @@ namespace dnd_combat_helper.Classes.Engine
     public class Combat
     {
         public List<ICombatant> combatants { get; private set; } = new List<ICombatant>();
+        public Queue<ICombatant> currentRound { get; private set; }
+        public Queue<ICombatant> nextRound { get; private set; }
 
         public void AddCombatant(ICombatant combatant)
         {
@@ -24,8 +26,16 @@ namespace dnd_combat_helper.Classes.Engine
             {
                 combatant.RollForInitiative(Functions.RollD20(0));
             }
-            combatants.OrderByDescending(c => c);
+            //combatants.OrderByDescending(c => c);
         }
+
+        public void SetCombatOrder()
+        {
+            combatants.Sort();
+            currentRound = new Queue<ICombatant>(combatants);
+        }
+
+        
 
         public List<PlayerCharacter> GetPlayerCharacters()
         {

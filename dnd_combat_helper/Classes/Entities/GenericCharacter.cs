@@ -8,6 +8,7 @@ namespace dnd_combat_helper.Classes.Entities
 {
     public abstract class GenericCharacter : ICombatant
     {
+        public int localId { get; }
         public int CurrentHitPoints { get; private set; }
 
         public int MaxHitPoints { get; private set; }
@@ -61,7 +62,7 @@ namespace dnd_combat_helper.Classes.Entities
             {
                 result = this.Initiative.CompareTo(other.Initiative);
             }
-            return result;
+            return result * -1;
         }
 
         public abstract void ReceiveDamage(int incomingDamage, bool isCrit);

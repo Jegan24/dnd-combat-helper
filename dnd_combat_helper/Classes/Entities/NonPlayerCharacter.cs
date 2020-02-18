@@ -8,6 +8,7 @@ namespace dnd_combat_helper.Classes.Entities
 {
     public class NonPlayerCharacter : ICombatant
     {
+        public int localId { get; }
         public int CurrentHitPoints { get; private set; }
 
         public int MaxHitPoints { get; private set; }
@@ -36,6 +37,26 @@ namespace dnd_combat_helper.Classes.Entities
 
         public List<DamageType> Immunities { get; private set; }
 
+        public NonPlayerCharacter(string name,int maxHp, int dexterity, int armorClass, List<DamageType> resistances, List<DamageType> immunites)
+        {
+            localId = ICombatant.GetNextId();
+            Name = name;
+            MaxHitPoints = maxHp;
+            CurrentHitPoints = MaxHitPoints;
+            Dexterity = dexterity;
+            ArmorClass = armorClass;
+            if (resistances != null)
+            {
+                Resistances = new List<DamageType>(resistances);
+            }
+            if (immunites != null)
+            {
+                Immunities = new List<DamageType>(immunites);
+            }
+
+            IsAlive = true;
+        }
+
         public int CompareTo(ICombatant other)
         {
             int result = 0;
@@ -61,7 +82,7 @@ namespace dnd_combat_helper.Classes.Entities
             {
                 result = this.Initiative.CompareTo(other.Initiative);
             }
-            return result;
+            return result * -1;
         }
 
         public void ReceiveDamage(int incomingDamage, bool isCrit)

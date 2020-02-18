@@ -7,6 +7,8 @@ namespace dnd_combat_helper.Classes.Entities
 {
     public interface ICombatant : IComparable<ICombatant>
     {
+        private static int nextId = 1;
+        int localId { get; }
         int CurrentHitPoints { get; }
         int MaxHitPoints { get; }
         int Initiative { get; }
@@ -23,5 +25,11 @@ namespace dnd_combat_helper.Classes.Entities
         void ReceiveDamage(List<Damage> incomingDamages);
         void RollForInitiative(int roll);
         void RollForInitiative();
+        protected static int GetNextId()
+        {
+            int returnId = nextId;
+            nextId++;
+            return returnId;
+        }    
     }
 }
