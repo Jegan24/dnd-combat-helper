@@ -8,7 +8,7 @@ namespace dnd_combat_helper.Classes.Engine
 {
     public class Combat
     {
-        private List<ICombatant> _combatants;
+        private List<ICombatant> _combatants = new List<ICombatant>();
         public IEnumerable<ICombatant> Combatants { get
             {
                 if(_combatants == null)

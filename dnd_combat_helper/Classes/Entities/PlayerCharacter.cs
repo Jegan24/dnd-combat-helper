@@ -9,7 +9,7 @@ namespace dnd_combat_helper.Classes.Entities
     public class PlayerCharacter : GenericCharacter
     {
         #region properties
-        
+
         public bool IsUnconscious
         {
             get
@@ -80,19 +80,19 @@ namespace dnd_combat_helper.Classes.Entities
             }
         }
 
-        public PlayerCharacter(string name, int maxHp, int dexterity, int armorClass, List<DamageType> resistances, List<DamageType> immunites) : 
-            base(name, maxHp, dexterity, armorClass, resistances,immunites)
-        {            
+        public PlayerCharacter(string name, int maxHp, int dexterity, int armorClass, List<DamageType> resistances, List<DamageType> immunites) :
+            base(name, maxHp, dexterity, armorClass, resistances, immunites)
+        {
             IsUnconscious = false;
         }
 
-        public PlayerCharacter(string name, int maxHp, int dexterity, int armorClass) : 
-            base (name, maxHp, dexterity, armorClass, null, null)
-        {            
+        public PlayerCharacter(string name, int maxHp, int dexterity, int armorClass) :
+            base(name, maxHp, dexterity, armorClass, null, null)
+        {
             IsUnconscious = false;
         }
 
-        
+
 
         public string GetMenuOptionString()
         {

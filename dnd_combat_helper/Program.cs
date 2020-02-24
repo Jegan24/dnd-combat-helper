@@ -35,8 +35,8 @@ namespace dnd_combat_helper
             combat.SetCombatOrder();
 
             foreach (ICombatant combatant in combat.Combatants)
-            {
-                Console.WriteLine($"{combatant.localId}. {combatant.Name}, Initiative: {combatant.Initiative}, Current HP: {combatant.CurrentHitPoints}, AC: {combatant.ArmorClass}");
+            {                
+                Console.WriteLine($"{GenericCharacter.GetIdOf(combatant).ToString()}. {combatant.Name}, Initiative: {combatant.Initiative}, Current HP: {combatant.CurrentHitPoints}, AC: {combatant.ArmorClass}");
             }
         }
     }

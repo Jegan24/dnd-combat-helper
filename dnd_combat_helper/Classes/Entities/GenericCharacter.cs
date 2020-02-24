@@ -54,7 +54,7 @@ namespace dnd_combat_helper.Classes.Entities
             }
 
             IsAlive = true;
-            
+
         }
 
         protected List<DamageType> _resistances;
@@ -75,7 +75,7 @@ namespace dnd_combat_helper.Classes.Entities
         {
             get
             {
-                if(_immunities == null)
+                if (_immunities == null)
                 {
                     _immunities = new List<DamageType>();
                 }
@@ -155,6 +155,18 @@ namespace dnd_combat_helper.Classes.Entities
             int returnId = nextId;
             nextId++;
             return returnId;
+        }
+
+        public static int GetIdOf(ICombatant combatant)
+        {
+            int id = 0;
+            GenericCharacter generic;
+            if (combatant is GenericCharacter)
+            {
+                generic = (GenericCharacter)combatant;
+                id = generic.localId;
+            }
+            return id;
         }
     }
 }
