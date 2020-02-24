@@ -27,14 +27,14 @@ namespace dnd_combat_helper
             combat.AddCombatant(enemy3);
             combat.AddCombatant(enemy4);
 
-            foreach(ICombatant combatant in combat.combatants)
+            foreach(ICombatant combatant in combat.Combatants)
             {
                 combatant.RollForInitiative();
             }
 
             combat.SetCombatOrder();
 
-            foreach (ICombatant combatant in combat.combatants)
+            foreach (ICombatant combatant in combat.Combatants)
             {
                 Console.WriteLine($"{combatant.localId}. {combatant.Name}, Initiative: {combatant.Initiative}, Current HP: {combatant.CurrentHitPoints}, AC: {combatant.ArmorClass}");
             }

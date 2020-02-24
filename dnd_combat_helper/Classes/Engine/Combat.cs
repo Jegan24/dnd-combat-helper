@@ -8,21 +8,30 @@ namespace dnd_combat_helper.Classes.Engine
 {
     public class Combat
     {
-        public List<ICombatant> combatants { get; private set; } = new List<ICombatant>();
+        private List<ICombatant> _combatants;
+        public IEnumerable<ICombatant> Combatants { get
+            {
+                if(_combatants == null)
+                {
+                    _combatants = new List<ICombatant>();
+                }
+                return _combatants;
+            }
+        }
         public Queue<ICombatant> currentRound { get; private set; }
         public Queue<ICombatant> nextRound { get; private set; }
 
         public void AddCombatant(ICombatant combatant)
         {
-            if (!combatants.Contains(combatant))
+            if (!_combatants.Contains(combatant))
             {
-                combatants.Add(combatant);
+                _combatants.Add(combatant);
             }
         }
 
         public void RollForInitiative()
         {
-            foreach (ICombatant combatant in combatants)
+            foreach (ICombatant combatant in Combatants)
             {
                 combatant.RollForInitiative(Functions.RollD20(0));
             }
@@ -31,17 +40,17 @@ namespace dnd_combat_helper.Classes.Engine
 
         public void SetCombatOrder()
         {
-            combatants.Sort();
-            currentRound = new Queue<ICombatant>(combatants);
+            _combatants.Sort();
+            currentRound = new Queue<ICombatant>(Combatants);
         }
 
         
 
-        public List<PlayerCharacter> GetPlayerCharacters()
+        public IEnumerable<PlayerCharacter> GetPlayerCharacters()
         {
             List<PlayerCharacter> playerCharacters = new List<PlayerCharacter>();
 
-            foreach(ICombatant combatant in combatants)
+            foreach(ICombatant combatant in Combatants)
             {
                 PlayerCharacter temp;
                 if(combatant is PlayerCharacter)
@@ -53,11 +62,11 @@ namespace dnd_combat_helper.Classes.Engine
             return playerCharacters;
         }
 
-        public List<NonPlayerCharacter> GetNonPlayerCharacters()
+        public IEnumerable<NonPlayerCharacter> GetNonPlayerCharacters()
         {
             List<NonPlayerCharacter> nonPlayerCharacters = new List<NonPlayerCharacter>();
 
-            foreach (ICombatant combatant in combatants)
+            foreach (ICombatant combatant in Combatants)
             {
                 NonPlayerCharacter temp;
                 if (combatant is NonPlayerCharacter)

@@ -8,12 +8,15 @@ namespace dnd_combat_helper.Classes.Entities
 {
     public abstract class GenericCharacter : ICombatant
     {
+        private static int nextId = 1;
+
         public int localId { get; }
-        public int CurrentHitPoints { get; private set; }
 
-        public int MaxHitPoints { get; private set; }
+        public int CurrentHitPoints { get; protected set; }
 
-        public int Initiative { get; private set; }
+        public int MaxHitPoints { get; protected set; }
+
+        public int Initiative { get; protected set; }
 
         public int InitiativeModifier
         {
@@ -25,17 +28,60 @@ namespace dnd_combat_helper.Classes.Entities
             }
         }
 
-        public int Dexterity { get; private set; }
+        public int Dexterity { get; protected set; }
 
-        public int ArmorClass { get; private set; }
+        public int ArmorClass { get; protected set; }
 
-        public bool IsAlive { get; private set; }
+        public bool IsAlive { get; protected set; }
 
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
-        public List<DamageType> Resistances { get; private set; }
+        protected GenericCharacter(string name, int maxHp, int dexterity, int armorClass, List<DamageType> resistances, List<DamageType> immunites)
+        {
+            localId = GetNextId();
+            Name = name;
+            MaxHitPoints = maxHp;
+            CurrentHitPoints = MaxHitPoints;
+            Dexterity = dexterity;
+            ArmorClass = armorClass;
+            if (resistances != null)
+            {
+                _resistances = new List<DamageType>(resistances);
+            }
+            if (immunites != null)
+            {
+                _immunities = new List<DamageType>(immunites);
+            }
 
-        public List<DamageType> Immunities { get; private set; }
+            IsAlive = true;
+            
+        }
+
+        protected List<DamageType> _resistances;
+        public IEnumerable<DamageType> Resistances
+        {
+            get
+            {
+                if (_resistances == null)
+                {
+                    _resistances = new List<DamageType>();
+                }
+                return _resistances;
+            }
+
+        }
+        protected List<DamageType> _immunities;
+        public IEnumerable<DamageType> Immunities
+        {
+            get
+            {
+                if(_immunities == null)
+                {
+                    _immunities = new List<DamageType>();
+                }
+                return _immunities;
+            }
+        }
 
         public int CompareTo(ICombatant other)
         {
@@ -69,11 +115,11 @@ namespace dnd_combat_helper.Classes.Entities
 
         public void ReceiveDamage(int incomingDamage, DamageType damageType, bool isCrit)
         {
-            if (Resistances.Contains(damageType))
+            if (_resistances.Contains(damageType))
             {
                 incomingDamage /= 2;
             }
-            else if (Immunities.Contains(damageType))
+            else if (_immunities.Contains(damageType))
             {
                 incomingDamage = 0;
             }
@@ -86,7 +132,7 @@ namespace dnd_combat_helper.Classes.Entities
             ReceiveDamage(incomingDamage.AmountOfDamage, incomingDamage.DamageType, incomingDamage.IsCrit);
         }
 
-        public void ReceiveDamage(List<Damage> incomingDamages)
+        public void ReceiveDamage(IEnumerable<Damage> incomingDamages)
         {
             foreach (Damage damage in incomingDamages)
             {
@@ -102,6 +148,13 @@ namespace dnd_combat_helper.Classes.Entities
         public void RollForInitiative(int roll)
         {
             Initiative = roll + InitiativeModifier;
+        }
+
+        private static int GetNextId()
+        {
+            int returnId = nextId;
+            nextId++;
+            return returnId;
         }
     }
 }
