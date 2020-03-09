@@ -6,7 +6,7 @@ using System.Text;
 
 namespace dnd_combat_helper.Classes.Entities
 {
-    public class PlayerCharacter : GenericCharacter
+    public class PlayerCharacter : GenericCharacter, IDeathSaveable
     {
         #region properties
 
@@ -55,7 +55,6 @@ namespace dnd_combat_helper.Classes.Entities
             }
         }
 
-
         #endregion
         private bool _IsUnconscious = false;
         private int _failedDeathSaves = 0;
@@ -92,8 +91,6 @@ namespace dnd_combat_helper.Classes.Entities
             IsUnconscious = false;
         }
 
-
-
         public string GetMenuOptionString()
         {
             return $"{localId}: {Name}";
@@ -125,5 +122,6 @@ namespace dnd_combat_helper.Classes.Entities
                 }
             }
         }
+        
     }
 }

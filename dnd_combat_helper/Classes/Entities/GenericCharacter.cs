@@ -44,20 +44,32 @@ namespace dnd_combat_helper.Classes.Entities
             CurrentHitPoints = MaxHitPoints;
             Dexterity = dexterity;
             ArmorClass = armorClass;
+
+            // Prevent force damage from being added to resistances/immunities, as it is unresistable damage
             if (resistances != null)
             {
                 _resistances = new List<DamageType>(resistances);
+                if (_resistances.Contains(DamageType.Force))
+                {
+                    _resistances.Remove(DamageType.Force);
+                }
             }
             if (immunites != null)
             {
                 _immunities = new List<DamageType>(immunites);
+                if (_immunities.Contains(DamageType.Force))
+                {
+                    _immunities.Remove(DamageType.Force);
+                }
             }
 
             IsAlive = true;
-
         }
 
+        public event EventHandler<DamageEventArgs> OnDamaged;
+        
         protected List<DamageType> _resistances;
+
         public IEnumerable<DamageType> Resistances
         {
             get
@@ -71,6 +83,7 @@ namespace dnd_combat_helper.Classes.Entities
 
         }
         protected List<DamageType> _immunities;
+
         public IEnumerable<DamageType> Immunities
         {
             get
@@ -90,6 +103,7 @@ namespace dnd_combat_helper.Classes.Entities
             {
                 if (this.Dexterity.CompareTo(other.Dexterity) == 0)
                 {
+                    // Both combatants have the same initiative score and dexterity, so the outcome is randomly decided
                     if (Functions.CoinFlip())
                     {
                         result = 1;
@@ -124,7 +138,7 @@ namespace dnd_combat_helper.Classes.Entities
                 incomingDamage = 0;
             }
 
-            ReceiveDamage(incomingDamage, isCrit);
+            ReceiveDamage(incomingDamage, isCrit);            
         }
 
         public void ReceiveDamage(Damage incomingDamage)

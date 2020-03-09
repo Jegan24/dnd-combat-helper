@@ -13,5 +13,14 @@ namespace dnd_combat_helper.Classes.Entities
         IEnumerable<DamageType> Immunities { get; }
         void ReceiveDamage(Damage incomingDamage);
         void ReceiveDamage(IEnumerable<Damage> incomingDamages);
+
+        event EventHandler<DamageEventArgs> OnDamaged; 
+    }
+
+    public class DamageEventArgs : EventArgs
+    {
+        public IEnumerable<Damage> incomingDamage;
+        public string[] ev;
+        public object sender;
     }
 }

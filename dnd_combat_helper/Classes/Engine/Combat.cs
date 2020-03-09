@@ -43,9 +43,7 @@ namespace dnd_combat_helper.Classes.Engine
             _combatants.Sort();
             currentRound = new Queue<ICombatant>(Combatants);
         }
-
         
-
         public IEnumerable<PlayerCharacter> GetPlayerCharacters()
         {
             List<PlayerCharacter> playerCharacters = new List<PlayerCharacter>();

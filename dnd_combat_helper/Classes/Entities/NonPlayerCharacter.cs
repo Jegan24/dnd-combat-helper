@@ -8,8 +8,6 @@ namespace dnd_combat_helper.Classes.Entities
 {
     public class NonPlayerCharacter : GenericCharacter
     {
-
-
         public NonPlayerCharacter(string name,int maxHp, int dexterity, int armorClass, List<DamageType> resistances, List<DamageType> immunites) :
             base(name, maxHp, dexterity, armorClass, resistances, immunites)
         {
@@ -21,7 +19,6 @@ namespace dnd_combat_helper.Classes.Entities
         {
 
         }
-
 
         public override void ReceiveDamage(int incomingDamage, bool isCrit)
         {
